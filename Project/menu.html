@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<script type="text/JavaScript">
+<!--
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+</head>
+
+<body onload="MM_preloadImages('logo - Copy.png','fb2.png')">
+<div style="top:0; z-index:2; left:35px; height:100%; width:65px; background-color:#CC3366; position:fixed; box-shadow:0 0 5px 4px rgba(96,96,96,0.5); background-image:url(menu.png); background-size:cover;">
+<div style="margin-left:10px; margin-top:10px;"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image3','','logo - Copy.png',1)"><img src="logo.png" name="Image3" width="50px" border="0" id="Image3" /></a></div>
+<div style="margin-top:30px;" align="center">
+	<div id="line1" style="width:50%; height:2px; display:none; border:2px solid #f7d013;" ></div>
+	<a href="product.php"><img src="product.png" width="35%" id="pro"/></a>
+	<div id="line2" style="width:50%; height:2px; display:none; border:2px solid #f7d013;" ></div>
+</div>
+	<img src="fb.png" width="23px" style=" position:fixed; left:55px; bottom:80px;" />
+	<img src="gp.png" width="23px" style=" position:fixed; left:55px; bottom:50px;" />
+	<img src="tw.png" width="23px" style=" position:fixed; left:55px; bottom:20px;" />
+<div style="top:40%; left:5px; height:200px; width:200px;">
+<canvas id="canvas"  width="125" height="125" style="background:transparent; top:40%; left:5px; position:fixed;  border-radius:100px; background-color:#315062;">
+</canvas>
+
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var radius = canvas.height / 2;
+ctx.translate(radius, radius);
+radius = radius * 0.90;
+setInterval(drawClock, 1000);
+
+function drawClock() {
+  drawFace(ctx, radius);
+  drawTime(ctx, radius);
+}
+
+function drawFace(ctx, radius) {
+  var grad;
+  var jr;
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, 2*Math.PI);
+  ctx.fillStyle = '#282828';
+  ctx.fill();
+  grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
+  grad.addColorStop(0, '#282828');
+  grad.addColorStop(1, '#315062');
+  grad.addColorStop(0.5, '#282828');
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = radius*0.1;
+  ctx.stroke();
+  
+  ctx.beginPath();
+  ctx.arc(0,0,radius/1.5,0,2*Math.PI);
+  ctx.fillStyle = '#282828';
+  ctx.fill();
+  grad = ctx.createRadialGradient(0,0,radius/1.5*0.95, 0,0,radius/1.5*1.05);
+  grad.addColorStop(0, '#315062');
+  grad.addColorStop(1, '#315062');
+  grad.addColorStop(0.5, '#282828');
+  ctx.strokeStyle = grad;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
+  ctx.fillStyle = '#315062';
+  ctx.stroke();
+  ctx.fill();
+  grad = ctx.createRadialGradient(0,0,radius/1.5*0.95, 0,0,radius/1.5*1.05);
+  grad.addColorStop(0, '#315062');
+  grad.addColorStop(1, '#315062');
+  grad.addColorStop(0.5, '#282828');
+  ctx.strokeStyle = grad;
+  ctx.stroke();
+}
+
+function drawTime(ctx, radius){
+    var now = new Date();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    //hour
+    hour=hour%12;
+    hour=(hour*Math.PI/6)+
+    (minute*Math.PI/(6*60))+
+    (second*Math.PI/(360*60));
+    drawHand(ctx, hour, radius*0.5, radius*0.07);
+    //minute
+    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
+    drawHand(ctx, minute, radius*0.8, radius*0.07);
+    // second
+    second=(second*Math.PI/30);
+    drawHand(ctx, second, radius*0.9, radius*0.04);
+}
+
+function drawHand(ctx, pos, length, width) {
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    ctx.lineCap = "round";
+    ctx.moveTo(0,0);
+    ctx.rotate(pos);
+    ctx.lineTo(0, -length);
+    ctx.stroke();
+    ctx.rotate(-pos);
+}
+</script>
+</div>
+</div>
+</body>
+</html>
